@@ -22,20 +22,23 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 class Player(GameSprite):
-    def update(self):
+    def update_l(self):
         keys = key.get_pressed()
-        if keys[K_LEFT] and self.rect.x > 5:
-            self.rect.x -= self.speed 
-        if keys[K_RIGHT] and self.rect.x < 620:
-            self.rect.x += self.speed 
-    def fire(self):
-        bullet = Bullet('bullet.png', self.rect.centerx, self.rect.top, 15, 20, -15)
-        bullets.add(bullet)
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed 
+        if keys[K_DOWN] and self.rect.y < 620:
+            self.rect.y += self.speed 
+    def update_r(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed 
+        if keys[K_s] and self.rect.y < 620:
+            self.rect.y += self.speed
      
             
 player1 = Player('tennis_racket copy_left.png', 2, 400, 60, 85, 10)
 player2 = Player('tennis_racket_right.png', 640, 400, 60, 85, 10)
-ball = Player('tennis_ball.png', 350, 250, 40, 40, 5)
+ball = GameSprite('tennis_ball.png', 350, 250, 40, 40, 5)
 
 clock = time.Clock()
 FPS = 60
@@ -47,6 +50,8 @@ while game:
         if e.type == QUIT:
             game = False
     window.blit(bg, (0, 0))
+    player2.update_l()
+    player1.update_r()
     player1.reset()
     player2.reset()
     ball.reset()
